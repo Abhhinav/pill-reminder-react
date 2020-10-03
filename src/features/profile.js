@@ -104,9 +104,14 @@ export default function Profile() {
             <h6>Add Dependant</h6>
 
             <div className="form-group">
-              <input type="text" name="relationship" 
-              onChange={handleChange} placeholder="Relationship" 
-              value={depData.relationship} className="form-control" />
+              <select value={depData.relation} onChange={handleChange} className="form-control">
+                <option value="Mother">Mother</option>
+                <option value="Father">Father</option>
+                <option value="Spouse">Spouse</option>
+                <option value="Child">Child</option>
+                <option value="Mother In Law">Mother In Law</option>
+                <option value="Father In Law">Father In Law</option>
+              </select>
             </div>
 
             <div className="form-group">

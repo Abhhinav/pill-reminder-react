@@ -19,7 +19,8 @@ export default function MedicalHistory() {
     dosage_frequency: "",
     dosage_time: "",
     email_notify: "",
-    user_id: currentUserState.currentUser.id
+    user_id: 3,
+    dependant_id: null
   });
 
   const handleChange = (e) => {
@@ -46,7 +47,8 @@ export default function MedicalHistory() {
           dosage_frequency: formData.dosage_frequency,
           dosage_time: formData.dosage_time,
           email_notify: formData.email_notify,
-          user_id: formData.user_id
+          user_id: formData.user_id,
+          dependant_id: formData.dependant_id
       }})
     })
 
@@ -54,7 +56,6 @@ export default function MedicalHistory() {
     setShow(prev => !prev)
   }
   const handleClick = () => {
-    setFormData("");
     setShow(p => !p)
   }
 
@@ -83,8 +84,16 @@ export default function MedicalHistory() {
               { show && 
               <tr>
                 <td>
-                  <input type="text" name="relationship" onChange={handleChange} 
-                  placeholder="Relationship" value={formData.relationship}/>
+                <div className="form-group">
+                    <select value={formData.relation} onChange={handleChange} className="form-control">
+                        <option value="Mother">Mother</option>
+                        <option value="Father">Father</option>
+                        <option value="Spouse">Spouse</option>
+                        <option value="Child">Child</option>
+                        <option value="Mother In Law">Mother In Law</option>
+                        <option value="Father In Law">Father In Law</option>
+                    </select>
+                </div>
                 </td>
                 <td>
                   <input type="text"  name="illness"  onChange={handleChange} 
