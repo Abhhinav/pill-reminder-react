@@ -20,7 +20,7 @@ export default function App() {
       <CurrentUserChecker>
 
         <Router>
-          <NavBar title="PILLS REMINDER" />
+          <NavBar />
           <Switch>
             <Route path='/' exact>
               <div className="d-flex mt-5 justify-content-center align-items-center">
@@ -50,6 +50,12 @@ export default function App() {
                 </div>
               </Route>
               <Route path="/medical-history">
+                <div 
+                  className="d-flex mt-5 justify-content-center align-items-center">
+                  <MedicalHistory />
+                </div>
+              </Route>
+              <Route path="/logout">
                 <div 
                   className="d-flex mt-5 justify-content-center align-items-center">
                   <MedicalHistory />

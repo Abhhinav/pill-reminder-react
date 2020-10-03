@@ -4,11 +4,10 @@ import {CurrentUserContext} from '../context/user-context';
 
 export const CurrentUserProvider = ({children}) => {
     let token = localStorage.getItem(Constant.AUTH_TOKEN);
-  
     const [state, setState] = React.useState({
       isLoading: false,
       isLoggedIn: token ? true : false, 
-      currentUser: token  // We will fix this (if needed)
+      currentUser: token // We will fix this (if needed)
     })
   
     return(

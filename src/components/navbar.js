@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {Constant} from '../constants/api_constants';
 import {CurrentUserContext} from '../context/user-context';
 
-export default function NavBar({title}) {
+export default function NavBar() {
     const [currentUserState,setCurrentUserState] = React.useContext(CurrentUserContext);
     
     const handleSignOut = (e) => {

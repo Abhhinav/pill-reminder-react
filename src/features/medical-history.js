@@ -1,10 +1,13 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import { CurrentUserContext } from '../context/user-context';
+import useFetch from '../hooks/use-fetch';
 
 export default function MedicalHistory() {
-
+  const [currentUserState, setCurrentUserState] = React.useContext(CurrentUserContext);
+  const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/medical_histories");
   const [history, setHistory] = React.useState([]);
-
+  const [show, setShow] = React.useState(false)
   const [formData, setFormData] = React.useState({
     relationship: "",
     illness: "",
@@ -15,7 +18,8 @@ export default function MedicalHistory() {
     dosage_amount: "",
     dosage_frequency: "",
     dosage_time: "",
-    email_notify: false
+    email_notify: "",
+    user_id: currentUserState.currentUser.id
   });
 
   const handleChange = (e) => {
@@ -28,48 +32,37 @@ export default function MedicalHistory() {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert(JSON.stringify(formData));
+    console.log(formData.user_id);
+    doFetch({
+      method: "post",
+      body: JSON.stringify({
+        medical_history: {
+          illness: formData.illness,
+          drname: formData.drname,
+          medicine: formData.medicine,
+          startdate: formData.startdate,
+          enddate: formData.enddate,
+          dosage_amount: formData.dosage_amount,
+          dosage_frequency: formData.dosage_frequency,
+          dosage_time: formData.dosage_time,
+          email_notify: formData.email_notify,
+          user_id: formData.user_id
+      }})
+    })
 
     setHistory([...history, formData]);
+    setShow(prev => !prev)
+  }
+  const handleClick = () => {
+    setFormData("");
+    setShow(p => !p)
   }
 
     return (
       <div>
         Medical History
-
+        <button onClick={handleClick}>Add Medical History</button>
           <form onSubmit={handleSubmit}>
-
-              <input type="text" name="relationship" onChange={handleChange} 
-                placeholder="Relationship" value={formData.relationship}/>
-
-              <input type="text"  name="illness"  onChange={handleChange} 
-                placeholder="Illness" value={formData.illness}/>
-
-              <input type="text" name="drname" onChange={handleChange} 
-                placeholder="Dr. Name" value={formData.drname}/>
-
-              <input type="text" name="medicine" onChange={handleChange} 
-                placeholder="Medicine" value={formData.medicine}/>
-
-              <input type="date" name="startdate" onChange={handleChange} 
-                value={formData.startdate}/>
-              
-              <input type="date" name="enddate" onChange={handleChange} 
-                value={formData.enddate}/>
-
-              <input type="text" name="dosage_amount" onChange={handleChange} 
-                placeholder="Dosage Amount" value={formData.dosage_amount}/>
-
-              <input type="text" name="dosage_frequency" onChange={handleChange} 
-                placeholder="Dosage Frequency" value={formData.dosage_frequency}/>
-
-              <input type="time" name="dosage_time" onChange={handleChange} 
-              value={formData.dosage_time}/>
-
-              <input type="boolean" name="email_notify" onChange={handleChange} 
-              value={formData.email_notify}/>
-
-          <button>Add Medical History</button>
-
           <table className="table table-striped table-condensed">
             <thead>
               <tr>
@@ -87,6 +80,50 @@ export default function MedicalHistory() {
               </tr>
             </thead>
             <tbody>
+              { show && 
+              <tr>
+                <td>
+                  <input type="text" name="relationship" onChange={handleChange} 
+                  placeholder="Relationship" value={formData.relationship}/>
+                </td>
+                <td>
+                  <input type="text"  name="illness"  onChange={handleChange} 
+                  placeholder="Illness" value={formData.illness}/>
+                </td>
+                <td>
+                  <input type="text" name="drname" onChange={handleChange} 
+                  placeholder="Dr. Name" value={formData.drname}/>
+                </td>
+                <td>
+                  <input type="text" name="medicine" onChange={handleChange} 
+                  placeholder="Medicine" value={formData.medicine}/>
+                </td>
+                <td>
+                  <input type="date" name="startdate" onChange={handleChange} 
+                   value={formData.startdate}/>
+                </td>
+                <td>
+                  <input type="date" name="enddate" onChange={handleChange} 
+                   value={formData.enddate}/>
+                </td>
+                <td>
+                  <input type="text" name="dosage_amount" onChange={handleChange} 
+                  placeholder="Dosage Amount" value={formData.dosage_amount}/>
+                </td>
+                <td>
+                  <input type="text" name="dosage_frequency" onChange={handleChange} 
+                  placeholder="Dosage Frequency" value={formData.dosage_frequency}/>
+                </td>
+                <td>
+                  <input type="time" name="dosage_time" onChange={handleChange} 
+                  value={formData.dosage_time}/>
+                </td>
+                <td>
+                  <input type="text" name="email_notify" onChange={handleChange} 
+                  placeholder ="Notification" value={formData.email_notify}/>
+                </td>
+              </tr>
+              }
               {history.map(h => {
                 return (
                   <tr>
@@ -100,16 +137,17 @@ export default function MedicalHistory() {
                     <td>{h.dosage_frequency}</td>
                     <td>{h.dosage_time}</td>
                     <td>{h.email_notify}</td>
+                    <td><i className="fa fa-trash"></i></td>
                   </tr>
                 )
               })}
             </tbody>
           </table>
-        </form>
-        <div className = "d-flex justify-content-around">
+          <div className = "d-flex justify-content-around">
           <button>Save</button>
           <Link to="/medical-history">Cancel</Link>
           </div>
+        </form>
       </div>
     )
 }

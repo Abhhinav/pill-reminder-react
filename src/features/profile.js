@@ -102,6 +102,7 @@ export default function Profile() {
           <div className="d-flex justify-content-end">
           <form onSubmit={handleDepSubmit}>
             <h6>Add Dependant</h6>
+
             <div className="form-group">
               <input type="text" name="relationship" 
               onChange={handleChange} placeholder="Relationship" 

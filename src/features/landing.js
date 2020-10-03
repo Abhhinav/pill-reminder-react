@@ -23,22 +23,23 @@ export default function Landing() {
         <p>Welcome</p>
         <button>Add Medical History</button>
         { response &&
-        <table className="table table-striped table-condensed">
-            <thead>
-              <tr>
-                <th scope="col">Illness</th>
-                <th scope="col">Dr. Name</th>
-                <th scope="col">Medicines</th>
-                <th scope="col">Start Date</th>
-                <th scope="col">End Date</th>
-                <th scope="col">Dosage Amount</th>
-                <th scope="col">Dosage Frequency</th>
-                <th scope="col">Dosage Time</th>
-              </tr>
-            </thead>
-            <tbody>
-            { response.map(r => {
-            return (
+         response.map(r => {
+          return (
+          <div key={r.id}>
+            <table className="table table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th scope="col">Illness</th>
+                    <th scope="col">Dr. Name</th>
+                    <th scope="col">Medicines</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Dosage Amount</th>
+                    <th scope="col">Dosage Frequency</th>
+                    <th scope="col">Dosage Time</th>
+                  </tr>
+                </thead>
+                <tbody>
                 <tr>
                     <td>{r.illness}</td>
                     <td>{r.drname}</td>
@@ -49,11 +50,10 @@ export default function Landing() {
                     <td>{r.dosage_frequency}</td>
                     <td>{r.dosage_time}</td>
                   </tr>
-                )
-              })}
             </tbody>
           </table>
-          }
+          </div>
+          )})}
       </div>
     )
 }
