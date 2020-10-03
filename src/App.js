@@ -7,8 +7,11 @@ import Register from './features/register';
 import AuthenticatedRoutes from './components/authenticated-routes';
 import Profile from './features/profile';
 import MedicalHistory from './features/medical-history';
-import './App.css';
 import {CurrentUserProvider} from './providers/current-user-provider';
+import Forget from './features/forget';
+
+
+
 
 export default function App() {
   return (
@@ -29,6 +32,13 @@ export default function App() {
               <div 
                 className="d-flex mt-5 justify-content-center align-items-center">
                 <Register />
+              </div>
+            </Route>
+
+            <Route path="/forget">
+              <div 
+                className="d-flex mt-5 justify-content-center align-items-center">
+                <Forget />
               </div>
             </Route>
             

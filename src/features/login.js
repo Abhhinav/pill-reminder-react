@@ -14,7 +14,7 @@ export default function Login() {
       password: ""
     });
     
-     const {isLoading, response, error, doFetch} = useFetch(API_SESSIONS);
+    const {isLoading, response, error, doFetch} = useFetch(API_SESSIONS);
   
     let token = localStorage.getItem(Constant.AUTH_TOKEN);
     
@@ -84,8 +84,8 @@ export default function Login() {
             <button>Sign in</button>
           </div>
           <div className="d-flex mt-4 justify-content-around">
-            <button>Forgot Password?</button>
-            <Link to="/register">New User</Link>
+          <Link to="/forget">Forgot Password?</Link>
+          <Link to="/register">New User</Link>
           </div>
         </form>
     

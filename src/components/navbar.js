@@ -19,8 +19,11 @@ export default function NavBar({title}) {
     
     return(
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link className="navbar-brand" to="/">{title}</Link>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <Link className="navbar-brand" to="/">HOME</Link>
+          <button className="navbar-toggler" type="button" 
+          data-toggle="collapse" data-target="#navbarSupportedContent" 
+          aria-controls="navbarSupportedContent" aria-expanded="false" 
+          aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" />
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -30,6 +33,9 @@ export default function NavBar({title}) {
               </li>
                <li className="nav-item">
                 <Link className="nav-link" to="/medical-history">Medical History</Link>
+              </li>
+               <li className="nav-item">
+                <Link className="nav-link" to="/logout">Log Out</Link>
               </li>
             </ul>
              {currentUserState.currentUser && 
