@@ -6,8 +6,20 @@ import useFetch from '../hooks/use-fetch';
 export default function MedicalHistory() {
   const [currentUserState, setCurrentUserState] = React.useContext(CurrentUserContext);
   const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/medical_histories");
+  //const {histisLoading, histresponse, histerror, doFetch} = useFetch("http://localhost:3001/medical_histories/3/self_with_deps");
   const [history, setHistory] = React.useState([]);
   const [show, setShow] = React.useState(false)
+
+  // React.useEffect(() => {
+  //   doFetch({
+  //     method: "get"
+  //   })
+  // },[])
+
+  // React.useEffect(() => {
+  //   console.log(histresponse);
+  // },[histresponse])
+
   const [formData, setFormData] = React.useState({
     relationship: "",
     illness: "",
@@ -55,8 +67,12 @@ export default function MedicalHistory() {
     setHistory([...history, formData]);
     setShow(prev => !prev)
   }
+
   const handleClick = () => {
     setShow(p => !p)
+  }
+  const handleDelete = () => {
+    alert("Item Deleted!");
   }
 
     return (
@@ -146,7 +162,7 @@ export default function MedicalHistory() {
                     <td>{h.dosage_frequency}</td>
                     <td>{h.dosage_time}</td>
                     <td>{h.email_notify}</td>
-                    <td><i className="fa fa-trash"></i></td>
+                    <td><button type="button" className="btn btn-primary" onClick={handleDelete}>Remove</button></td>
                   </tr>
                 )
               })}

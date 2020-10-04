@@ -1,7 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useFetch from '../hooks/use-fetch';
 
 export default function Profile() {
+
+  const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/dependants");
+
+  React.useEffect(() => {
+    doFetch({
+      method: "get"
+    })
+  },[])
 
   const [userData, setUserData] = React.useState({
     name: "",
@@ -13,16 +22,27 @@ export default function Profile() {
     height: ""
   });
 
-  const [depData, setDepData] = React.useState({
-    relationship: "",
-    name: "",
-    email: "",
-    contact: "",
-    bloodgroup: "",
-    dob: "",
-    weight: "",
-    height: ""
-  });
+    let data = [];
+    const [depData, setDepData] = React.useState({
+      ...data,
+      relationship: "",
+      name: "",
+      email: "",
+      contact: "",
+      bloodgroup: "",
+      dob: "",
+      weight: "",
+      height: ""
+    });
+
+     React.useEffect(() => {
+      console.log(response);
+      data = response && response.map(res=>{
+         if (res.relationship === depData.relationship)
+         return res;
+      });
+      console.log(data)
+    },[response, depData])
 
   const handleChange = (e) => {
     setUserData({
@@ -43,6 +63,7 @@ export default function Profile() {
   const handleDepSubmit = (e) => {
     e.preventDefault();
     alert(JSON.stringify(depData));
+    console.log (depData);
   }
     return (
       <div className="d-flex justify-content-around">
@@ -104,7 +125,7 @@ export default function Profile() {
             <h6>Add Dependant</h6>
 
             <div className="form-group">
-              <select value={depData.relation} onChange={handleChange} className="form-control">
+              <select value={depData.relationship} onChange={handleChange} name="relationship" className="form-control">
                 <option value="Mother">Mother</option>
                 <option value="Father">Father</option>
                 <option value="Spouse">Spouse</option>
