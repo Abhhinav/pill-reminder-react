@@ -4,7 +4,7 @@ import useFetch from '../hooks/use-fetch';
 
 export default function Profile() {
 
-  const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/dependants");
+  const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/dependants",`http://localhost:3001/users/3`);
 
   React.useEffect(() => {
     doFetch({

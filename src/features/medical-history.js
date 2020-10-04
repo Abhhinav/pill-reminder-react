@@ -5,20 +5,19 @@ import useFetch from '../hooks/use-fetch';
 
 export default function MedicalHistory() {
   const [currentUserState, setCurrentUserState] = React.useContext(CurrentUserContext);
-  const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/medical_histories");
-  //const {histisLoading, histresponse, histerror, doFetch} = useFetch("http://localhost:3001/medical_histories/3/self_with_deps");
-  const [history, setHistory] = React.useState([]);
+  const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/medical_histories","http://localhost:3001/medical_histories/3/self_with_deps");
+  const [history, setHistory] = React.useState(response? response : []);
   const [show, setShow] = React.useState(false)
 
-  // React.useEffect(() => {
-  //   doFetch({
-  //     method: "get"
-  //   })
-  // },[])
+  React.useEffect(() => {
+    doFetch({
+      method: "get"
+    })
+  },[])
 
-  // React.useEffect(() => {
-  //   console.log(histresponse);
-  // },[histresponse])
+  React.useEffect(() => {
+    console.log(response);
+  },[response])
 
   const [formData, setFormData] = React.useState({
     relationship: "",
@@ -162,11 +161,11 @@ export default function MedicalHistory() {
                     <td>{h.dosage_frequency}</td>
                     <td>{h.dosage_time}</td>
                     <td>{h.email_notify}</td>
-                    <td><button type="button" className="btn btn-primary" onClick={handleDelete}>Remove</button></td>
+                    <td><div><button type="button" className="btn btn-primary" onClick={handleDelete}>Remove</button></div></td>
                   </tr>
-                )
-              })}
+              )})}
             </tbody>
+
           </table>
           <div className = "d-flex justify-content-around">
           <button>Save</button>
