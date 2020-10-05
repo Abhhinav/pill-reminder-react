@@ -12,7 +12,10 @@ export default function Register() {
     country: "",
     dob: "",
     pwd: "",
-    cpwd: ""
+    cpwd: "",
+    bloodgroup: "",
+    weight: "",
+    height: ""
   });
 
   const handleChange = (e) => {
@@ -35,6 +38,9 @@ export default function Register() {
           country: formData.country,
           dob: formData.dob,
           password: formData.pwd,
+          weight: formData.weight,
+          bloodgroup: formData.bloodgroup,
+          height: formData.height
         }
       })
     })

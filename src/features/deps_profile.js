@@ -1,20 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import useFetch from '../hooks/use-fetch';
+import Depform from './dep-form';
 
 export default function DepsProfile () {
 
     const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/dependants");
-
-  React.useEffect(() => {
-    doFetch({
-      method: "get"
-    })
-  },[])
-
-    let data = [];
+    const [showDep, setShowDep] = React.useState(false);
+    let id = localStorage.getItem("id");
+    
     const [depData, setDepData] = React.useState({
-      ...data,
       relationship: "",
       name: "",
       email: "",
@@ -22,20 +17,11 @@ export default function DepsProfile () {
       bloodgroup: "",
       dob: "",
       weight: "",
-      height: ""
+      height: "",
+      user_id: id
     });
 
-     React.useEffect(() => {
-      console.log(response);
-      data = response && response.map(res=>{
-         if (res.relationship === depData.relationship)
-         return res;
-      });
-      console.log(data)
-    },[response, depData])
-
   const handleChange = (e) => {
-    
     setDepData({
       ...depData,
       [e.target.name]: e.target.value
@@ -46,10 +32,33 @@ export default function DepsProfile () {
     e.preventDefault();
     alert(JSON.stringify(depData));
     console.log (depData);
+    doFetch({
+        method: "post",
+        body: JSON.stringify({
+          dependant: {
+            relationship: depData.relationship,
+            name: depData.name,
+            email: depData.email,
+            contact: depData.contact,
+            bloodgroup: depData.bloodgroup,
+            dob: depData.dob,
+            weight: depData.weight,
+            height: depData.height,
+            user_id: depData.user_id
+        }})
+        })
   }
+    const toggleView = () => {
+        setShowDep(p =>!p)
+    }
 
     return(
         <div className="d-flex justify-content-end">
+            <div><button onClick={toggleView}>View Dependant</button></div>
+            {!showDep && 
+            <Depform />
+            }
+            { showDep &&
           <form onSubmit={handleDepSubmit}>
             <h6>Add Dependant</h6>
 
@@ -111,6 +120,7 @@ export default function DepsProfile () {
               <Link to="/profile">Cancel</Link>
             </div>
           </form>
+        }
           </div>
     )
 }

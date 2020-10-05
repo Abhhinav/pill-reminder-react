@@ -2,26 +2,20 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import { CurrentUserContext } from '../context/user-context';
 import useFetch from '../hooks/use-fetch';
+import MedicalForm from './medical-form';
 
 export default function MedicalHistory() {
   const [currentUserState, setCurrentUserState] = React.useContext(CurrentUserContext);
   let id = localStorage.getItem("id");
-  const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/medical_histories",
-  `http://localhost:3001/medical_histories/${id}/self_with_deps`);
-  const [history, setHistory] = React.useState(response? response : []);
-  const [show, setShow] = React.useState(false)
-
-  React.useEffect(() => {
-    doFetch({
-      method: "get"
-    })
-  },[])
-
-  React.useEffect(() => {
-    console.log(response);
-  },[response])
+  const [show, setShow] = React.useState(false);
+  const [history, setHistory] = React.useState([]);
+  const [view, toggleView] = React.useState(false);
+  const [delid, setDelid] = React.useState(0);
+  const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/medical_histories");
+  const {isLoading: isloading2, response: response2 , error: error2, doFetch: doFetch2} = useFetch(`http://localhost:3001/medical_histories/${delid}.json`);
 
   const [formData, setFormData] = React.useState({
+    id: "",
     relationship: "",
     illness: "",
     drname: "",
@@ -70,16 +64,40 @@ export default function MedicalHistory() {
   }
 
   const handleClick = () => {
+    toggleView(true)
     setShow(p => !p)
   }
-  const handleDelete = () => {
+  const handleDelete = (ID) => {
+    setDelid(ID);
+    console.log(ID);
+    console.log(delid);
     alert("Item Deleted!");
+    doFetch2({
+      method: "delete"
+    });
+    console.log(ID);
+    console.log(delid);
+    alert("Item Deleted!");
+    doFetch2({
+      method: "delete"
+    });
+  }
+
+  const handleForm =  () => {
+    toggleView(false)
   }
 
     return (
       <div>
         Medical History
+        <div>
+        <button onClick={handleForm}>View Medical History</button>
         <button onClick={handleClick}>Add Medical History</button>
+        </div>
+        {!view &&
+        <MedicalForm />
+        }
+        {view &&
           <form onSubmit={handleSubmit}>
           <table className="table table-striped table-condensed">
             <thead>
@@ -98,11 +116,11 @@ export default function MedicalHistory() {
               </tr>
             </thead>
             <tbody>
-              { show && 
+              {show && 
               <tr>
                 <td>
                 <div className="form-group">
-                    <select value={formData.relation} onChange={handleChange} className="form-control">
+                    <select value={formData.relation} onChange={handleChange} name="relationship" className="form-control">
                         <option value="Mother">Mother</option>
                         <option value="Father">Father</option>
                         <option value="Spouse">Spouse</option>
@@ -113,46 +131,64 @@ export default function MedicalHistory() {
                 </div>
                 </td>
                 <td>
+                  <div className="col-xs-3">
                   <input type="text"  name="illness"  onChange={handleChange} 
                   placeholder="Illness" value={formData.illness}/>
+                  </div>
                 </td>
                 <td>
+                 <div className="col-xs-3">
                   <input type="text" name="drname" onChange={handleChange} 
                   placeholder="Dr. Name" value={formData.drname}/>
+                  </div>
                 </td>
                 <td>
+                <div className="col-xs-3">
                   <input type="text" name="medicine" onChange={handleChange} 
                   placeholder="Medicine" value={formData.medicine}/>
+                  </div>
                 </td>
                 <td>
+                <div className="col-xs-3">
                   <input type="date" name="startdate" onChange={handleChange} 
                    value={formData.startdate}/>
+                   </div>
                 </td>
                 <td>
+                <div className="col-xs-3">
                   <input type="date" name="enddate" onChange={handleChange} 
                    value={formData.enddate}/>
+                   </div>
                 </td>
                 <td>
+                <div className="col-xs-3">
                   <input type="text" name="dosage_amount" onChange={handleChange} 
                   placeholder="Dosage Amount" value={formData.dosage_amount}/>
+                  </div>
                 </td>
                 <td>
+                <div className="col-xs-3">
                   <input type="text" name="dosage_frequency" onChange={handleChange} 
                   placeholder="Dosage Frequency" value={formData.dosage_frequency}/>
+                  </div>
                 </td>
                 <td>
+                <div className="col-xs-3">
                   <input type="time" name="dosage_time" onChange={handleChange} 
                   value={formData.dosage_time}/>
+                  </div>
                 </td>
                 <td>
-                  <input type="text" name="email_notify" onChange={handleChange} 
-                  placeholder ="Notification" value={formData.email_notify}/>
+                  <div className="col-xs-3">
+                    <input type="text" name="email_notify" onChange={handleChange} 
+                    placeholder ="Notification" value={formData.email_notify}/>
+                  </div>
                 </td>
               </tr>
               }
               {history.map(h => {
                 return (
-                  <tr>
+                  <tr key = {h.id}>
                     <td>{h.relationship}</td>
                     <td>{h.illness}</td>
                     <td>{h.drname}</td>
@@ -162,8 +198,13 @@ export default function MedicalHistory() {
                     <td>{h.dosage_amount}</td>
                     <td>{h.dosage_frequency}</td>
                     <td>{h.dosage_time}</td>
-                    <td>{h.email_notify}</td>
-                    <td><div><button type="button" className="btn btn-primary" onClick={handleDelete}>Remove</button></div></td>
+                    <td><div>{h.email_notify &&
+                        <i className="fas fa-toggle-on"></i>
+                    }
+                    {!h.email_notify &&
+                        <i className="fas fa-toggle-off"></i>
+                    }</div></td>
+                    <td><div><button type="button" className="btn btn-primary" onClick={() => handleDelete(h.id)}>Remove</button></div></td>
                   </tr>
               )})}
             </tbody>
@@ -174,6 +215,7 @@ export default function MedicalHistory() {
           <Link to="/medical-history">Cancel</Link>
           </div>
         </form>
+      }
       </div>
     )
 }
