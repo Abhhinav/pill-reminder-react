@@ -7,7 +7,7 @@ export default function CurrentUserChecker({children}) {
     const token = localStorage.getItem(Constant.AUTH_TOKEN);
     const [CurrentUserState, setCurrentUserState] = React.useContext(CurrentUserContext);
     const {response, doFetch} = useFetch("http://localhost:3001/sessions/user");
-    
+
   
     React.useEffect(() => {
       if (!token) {
@@ -38,7 +38,6 @@ export default function CurrentUserChecker({children}) {
       }))
       
     }, [response, setCurrentUserState]);
-    
     return children;
 }
   

@@ -5,7 +5,9 @@ import useFetch from '../hooks/use-fetch';
 
 export default function MedicalHistory() {
   const [currentUserState, setCurrentUserState] = React.useContext(CurrentUserContext);
-  const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/medical_histories","http://localhost:3001/medical_histories/3/self_with_deps");
+  let id = localStorage.getItem("id");
+  const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/medical_histories",
+  `http://localhost:3001/medical_histories/${id}/self_with_deps`);
   const [history, setHistory] = React.useState(response? response : []);
   const [show, setShow] = React.useState(false)
 
@@ -30,7 +32,7 @@ export default function MedicalHistory() {
     dosage_frequency: "",
     dosage_time: "",
     email_notify: "",
-    user_id: 3,
+    user_id: id,
     dependant_id: null
   });
 
