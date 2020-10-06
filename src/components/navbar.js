@@ -34,9 +34,6 @@ export default function NavBar() {
                <li className="nav-item">
                 <Link className="nav-link" to="/medical-history">Medical History</Link>
               </li>
-               <li className="nav-item">
-                <Link className="nav-link" to="/logout">Log Out</Link>
-              </li>
             </ul>
              {currentUserState.currentUser && 
                <a  onClick={handleSignOut} href="#" className="nav-link">

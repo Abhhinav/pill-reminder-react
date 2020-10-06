@@ -8,7 +8,7 @@ import AuthenticatedRoutes from './components/authenticated-routes';
 import Profile from './features/profile';
 import MedicalHistory from './features/medical-history';
 import {CurrentUserProvider} from './providers/current-user-provider';
-import Forget from './features/forget';
+import "@fortawesome/fontawesome-free/css/all.css";
 
 
 
@@ -34,28 +34,13 @@ export default function App() {
                 <Register />
               </div>
             </Route>
-
-            <Route path="/forget">
-              <div 
-                className="d-flex mt-5 justify-content-center align-items-center">
-                <Forget />
-              </div>
-            </Route>
-            
             <AuthenticatedRoutes>
               <Route path="/profile">
-                <div 
-                  className="d-flex mt-5 justify-content-center align-items-center">
+                <div>
                   <Profile />
                 </div>
               </Route>
               <Route path="/medical-history">
-                <div 
-                  className="d-flex mt-5 justify-content-center align-items-center">
-                  <MedicalHistory />
-                </div>
-              </Route>
-              <Route path="/logout">
                 <div 
                   className="d-flex mt-5 justify-content-center align-items-center">
                   <MedicalHistory />

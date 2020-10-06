@@ -30,7 +30,7 @@ export default function DepsProfile () {
 
   const handleDepSubmit = (e) => {
     e.preventDefault();
-    alert(JSON.stringify(depData));
+    alert("Dependant Added!");
     console.log (depData);
     doFetch({
         method: "post",
@@ -54,73 +54,71 @@ export default function DepsProfile () {
 
     return(
         <div className="d-flex justify-content-end">
-            <div><button onClick={toggleView}>View Dependant</button></div>
+            
             {!showDep && 
             <Depform />
             }
+            <div><button onClick={toggleView} className="btn btn-outline-primary">Add/View Dependant</button></div>
+            <div>
             { showDep &&
           <form onSubmit={handleDepSubmit}>
-            <h6>Add Dependant</h6>
+            <h4>Add Dependant</h4>
 
             <div className="form-group">
-              <select value={depData.relationship} onChange={handleChange} name="relationship" className="form-control">
-                <option value="Mother">Mother</option>
-                <option value="Father">Father</option>
-                <option value="Spouse">Spouse</option>
-                <option value="Child">Child</option>
-                <option value="Mother In Law">Mother In Law</option>
-                <option value="Father In Law">Father In Law</option>
-              </select>
+              <input type="text" name="relationship" 
+              onChange={handleChange} placeholder="Relationship" 
+              value={depData.relationship} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="text" name="name" 
               onChange={handleChange} placeholder="Name" 
-              value={depData.name} className="form-control" />
+              value={depData.name} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="email" name="email" 
               onChange={handleChange} placeholder="Email Address" 
-              value={depData.email} className="form-control" />
+              value={depData.email} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="number" name="contact" 
               onChange={handleChange} placeholder="Contact" 
-              value={depData.contact} className="form-control" />
+              value={depData.contact} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="text" name="bloodgroup" 
               onChange={handleChange} placeholder="Blood Group" 
-              value={depData.bloodgroup} className="form-control" />
+              value={depData.bloodgroup} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="date" name="dob" 
               onChange={handleChange} 
-              value={depData.dob} className="form-control" />
+              value={depData.dob} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="text" name="weight" 
               onChange={handleChange} placeholder="Weight" 
-              value={depData.weight} className="form-control" />
+              value={depData.weight} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="text" name="height" 
               onChange={handleChange} placeholder="Height" 
-              value={depData.height} className="form-control" />
+              value={depData.height} className="form-control" required/>
             </div>
 
             <div className="d-flex mt-4 justify-content-around">
-              <button>Submit</button>
-              <Link to="/profile">Cancel</Link>
+              <button className="btn btn-outline-success">Submit</button>
+              <Link to="/profile" className="btn btn-info">Cancel</Link>
             </div>
           </form>
         }
+        </div>
           </div>
     )
 }

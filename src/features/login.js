@@ -57,9 +57,9 @@ export default function Login() {
     
     return (
       
-      <div className="card p-5" style={{maxWidth:"400px"}}>
+      <div className="card p-4" style={{maxWidth:"400px"}}>
         <form onSubmit={handleSubmit}>
-          <h2>Welcome to Pill Reminder</h2>
+        <div className="d-flex justify-content-center"><h2>Login</h2></div>
           <div>
             {response && JSON.stringify(response)}
             {error && JSON.stringify(error)}
@@ -70,7 +70,7 @@ export default function Login() {
               onChange= {handleChange}
               value={user.email}
               name="email"
-              className="form-control"  />
+              className="form-control" required />
           </div>
           <div className="form-group">
             <label>Password</label>
@@ -78,14 +78,11 @@ export default function Login() {
               value={user.password}
               onChange= {handleChange}
               name="password"
-              className="form-control" />
-          </div>
-          <div className="d-flex justify-content-center">
-            <button>Sign in</button>
+              className="form-control" required />
           </div>
           <div className="d-flex mt-4 justify-content-around">
-          <Link to="/forget">Forgot Password?</Link>
-          <Link to="/register">New User</Link>
+          <button className="btn btn-success">Sign in</button>
+          <Link to="/register" className="btn btn-outline-info">New User</Link>
           </div>
         </form>
     

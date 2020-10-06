@@ -1,22 +1,22 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import { CurrentUserContext } from '../context/user-context';
 import useFetch from '../hooks/use-fetch';
 import MedicalForm from './medical-form';
 
 export default function MedicalHistory() {
-  const [currentUserState, setCurrentUserState] = React.useContext(CurrentUserContext);
   let id = localStorage.getItem("id");
   const [show, setShow] = React.useState(false);
   const [history, setHistory] = React.useState([]);
   const [view, toggleView] = React.useState(false);
-  const [delid, setDelid] = React.useState(0);
   const {isLoading, response, error, doFetch} = useFetch("http://localhost:3001/medical_histories");
-  const {isLoading: isloading2, response: response2 , error: error2, doFetch: doFetch2} = useFetch(`http://localhost:3001/medical_histories/${delid}.json`);
+  const {isLoading : isLoading2, response : response2, error: error2, doFetch: doFetch2} = useFetch(`http://localhost:3001/dependants/${id}/deps`);
+  React.useEffect(() => {
+    doFetch2({
+        method: "get"
+    })
+  },[])
 
   const [formData, setFormData] = React.useState({
-    id: "",
-    relationship: "",
     illness: "",
     drname: "",
     medicine: "",
@@ -27,8 +27,9 @@ export default function MedicalHistory() {
     dosage_time: "",
     email_notify: "",
     user_id: id,
-    dependant_id: null
+    dependant_id: "" 
   });
+
 
   const handleChange = (e) => {
     setFormData({
@@ -39,8 +40,7 @@ export default function MedicalHistory() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(JSON.stringify(formData));
-    console.log(formData.user_id);
+    alert("Medical History Saved!");
     doFetch({
       method: "post",
       body: JSON.stringify({
@@ -67,21 +67,6 @@ export default function MedicalHistory() {
     toggleView(true)
     setShow(p => !p)
   }
-  const handleDelete = (ID) => {
-    setDelid(ID);
-    console.log(ID);
-    console.log(delid);
-    alert("Item Deleted!");
-    doFetch2({
-      method: "delete"
-    });
-    console.log(ID);
-    console.log(delid);
-    alert("Item Deleted!");
-    doFetch2({
-      method: "delete"
-    });
-  }
 
   const handleForm =  () => {
     toggleView(false)
@@ -89,20 +74,30 @@ export default function MedicalHistory() {
 
     return (
       <div>
-        Medical History
+        <div className="d-flex justify-content-center"><h2>Medical History</h2></div>
         <div>
-        <button onClick={handleForm}>View Medical History</button>
-        <button onClick={handleClick}>Add Medical History</button>
+        <button className="btn btn-primary" onClick={handleForm}>View Medical History</button>
+        <button className="btn btn-secondary"onClick={handleClick}>Add Medical History</button>
         </div>
         {!view &&
         <MedicalForm />
         }
         {view &&
           <form onSubmit={handleSubmit}>
+            <div className="form-group">
+                    <select value={formData.dependant_id} onChange={handleChange} 
+                    name="dependant_id" placeholder="Select Dependant" className="form-control">
+                       <option label="Select Dependant"></option>
+                       <option value="0">Self</option>
+                        {response2 && response2.map(k=>{
+                          return(
+                          <option value={k.id} key={k.id}>{k.name}</option>
+                        )})}
+                    </select>
+                </div>
           <table className="table table-striped table-condensed">
             <thead>
               <tr>
-                <th scope="col">Relationship</th>
                 <th scope="col">Illness</th>
                 <th scope="col">Dr. Name</th>
                 <th scope="col">Medicines</th>
@@ -112,76 +107,66 @@ export default function MedicalHistory() {
                 <th scope="col">Dosage Frequency</th>
                 <th scope="col">Dosage Time</th>
                 <th scope="col">Email Notification</th>
-                <th scope="col">Remove</th>
               </tr>
             </thead>
             <tbody>
               {show && 
               <tr>
                 <td>
-                <div className="form-group">
-                    <select value={formData.relation} onChange={handleChange} name="relationship" className="form-control">
-                        <option value="Mother">Mother</option>
-                        <option value="Father">Father</option>
-                        <option value="Spouse">Spouse</option>
-                        <option value="Child">Child</option>
-                        <option value="Mother In Law">Mother In Law</option>
-                        <option value="Father In Law">Father In Law</option>
-                    </select>
-                </div>
-                </td>
-                <td>
-                  <div className="col-xs-3">
+                  <div>
                   <input type="text"  name="illness"  onChange={handleChange} 
-                  placeholder="Illness" value={formData.illness}/>
+                  placeholder="Illness" value={formData.illness} required />
                   </div>
                 </td>
                 <td>
-                 <div className="col-xs-3">
+                 <div>
                   <input type="text" name="drname" onChange={handleChange} 
-                  placeholder="Dr. Name" value={formData.drname}/>
+                  placeholder="Dr. Name" value={formData.drname} required />
                   </div>
                 </td>
                 <td>
-                <div className="col-xs-3">
+                <div>
                   <input type="text" name="medicine" onChange={handleChange} 
-                  placeholder="Medicine" value={formData.medicine}/>
+                  placeholder="Medicine" value={formData.medicine} required/>
                   </div>
                 </td>
                 <td>
-                <div className="col-xs-3">
+                <div>
                   <input type="date" name="startdate" onChange={handleChange} 
-                   value={formData.startdate}/>
+                   value={formData.startdate} required/>
                    </div>
                 </td>
                 <td>
-                <div className="col-xs-3">
+                <div>
                   <input type="date" name="enddate" onChange={handleChange} 
-                   value={formData.enddate}/>
+                   value={formData.enddate} required/>
                    </div>
                 </td>
                 <td>
-                <div className="col-xs-3">
+                <div>
                   <input type="text" name="dosage_amount" onChange={handleChange} 
-                  placeholder="Dosage Amount" value={formData.dosage_amount}/>
+                  placeholder="Dosage Amount" value={formData.dosage_amount} required/>
                   </div>
                 </td>
                 <td>
-                <div className="col-xs-3">
+                <div>
                   <input type="text" name="dosage_frequency" onChange={handleChange} 
-                  placeholder="Dosage Frequency" value={formData.dosage_frequency}/>
+                  placeholder="Dosage Frequency" value={formData.dosage_frequency} required/>
                   </div>
                 </td>
                 <td>
-                <div className="col-xs-3">
+                <div>
                   <input type="time" name="dosage_time" onChange={handleChange} 
-                  value={formData.dosage_time}/>
+                  value={formData.dosage_time} required/>
                   </div>
                 </td>
                 <td>
-                  <div className="col-xs-3">
-                    <input type="text" name="email_notify" onChange={handleChange} 
-                    placeholder ="Notification" value={formData.email_notify}/>
+                  <div>
+                    <select value={formData.email_notify} 
+                    name="email_notify" onChange={handleChange}>
+                        <option value="true">True</option>
+                        <option value="false">False</option>
+                    </select>
                   </div>
                 </td>
               </tr>
@@ -189,30 +174,30 @@ export default function MedicalHistory() {
               {history.map(h => {
                 return (
                   <tr key = {h.id}>
-                    <td>{h.relationship}</td>
                     <td>{h.illness}</td>
                     <td>{h.drname}</td>
                     <td>{h.medicine}</td>
                     <td>{h.startdate}</td>
                     <td>{h.enddate}</td>
-                    <td>{h.dosage_amount}</td>
-                    <td>{h.dosage_frequency}</td>
-                    <td>{h.dosage_time}</td>
-                    <td><div>{h.email_notify &&
-                        <i className="fas fa-toggle-on"></i>
+                    <td className="text-center">{h.dosage_amount}</td>
+                    <td className="text-center">{h.dosage_frequency}</td>
+                    <td className="text-center">{h.dosage_time}</td>
+                    <td className="text-center"><div>
+                    {h.email_notify &&
+                        <i className="fa fa-bell" ></i>
                     }
                     {!h.email_notify &&
-                        <i className="fas fa-toggle-off"></i>
-                    }</div></td>
-                    <td><div><button type="button" className="btn btn-primary" onClick={() => handleDelete(h.id)}>Remove</button></div></td>
+                        <i className="far fa-bell"></i>
+                    }
+                  </div></td>
                   </tr>
               )})}
             </tbody>
 
           </table>
           <div className = "d-flex justify-content-around">
-          <button>Save</button>
-          <Link to="/medical-history">Cancel</Link>
+          <button className = "btn btn-outline-success">Save</button>
+          <Link to="/medical-history" className="btn btn-info">Cancel</Link>
           </div>
         </form>
       }

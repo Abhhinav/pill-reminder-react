@@ -4,8 +4,7 @@ import useFetch from '../hooks/use-fetch';
 
 export default function MyProfile () {
     let id = localStorage.getItem("id");
-    const {isLoading, response, error, doFetch} = useFetch(`http://localhost:3001/users/${id}`,);
-    const [edit, setEdit] = React.useState(false);
+    const {isLoading, response, error, doFetch} = useFetch(`http://localhost:3001/users/${id}`);
     React.useEffect(() => {
         doFetch({
         method: "get"
@@ -32,12 +31,12 @@ export default function MyProfile () {
         setUserData({
             ...userData,
             [e.target.name]: e.target.value
-          })
+        })
       }
 
       const handleUserSubmit = (e) => {
         e.preventDefault();
-        alert(JSON.stringify(userData));
+        alert("User details updated!");
         doFetch({
             method: "put",
             body: JSON.stringify({
@@ -51,58 +50,59 @@ export default function MyProfile () {
                 height: userData.height
               }
             )
-          })
+          });
       }
 
     return ( 
         <div className="d-flex justify-content-start">
           <form onSubmit={handleUserSubmit}>
-            <h6>My Profile</h6>
+          <div className="d-flex justify-content-center"><h2>My Profile</h2></div>
+            
             <div className="form-group">
               <input type="text" name="name" 
               onChange={handleChange} placeholder="Name" 
-              value={userData.name} className="form-control" />
+              value={userData.name} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="email" name="email" 
               onChange={handleChange} placeholder="Email Address" 
-              value={userData.email} className="form-control" />
+              value={userData.email} className="form-control" disabled />
             </div>
 
             <div className="form-group">
               <input type="number" name="contact" 
               onChange={handleChange} placeholder="Contact" 
-              value={userData.contact} className="form-control" />
+              value={userData.contact} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="text" name="bloodgroup" 
               onChange={handleChange} placeholder="Blood Group" 
-              value={userData.bloodgroup} className="form-control" />
+              value={userData.bloodgroup} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="date" name="dob" 
               onChange={handleChange} 
-              value={userData.dob} className="form-control" />
+              value={userData.dob} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="text" name="weight" 
               onChange={handleChange} placeholder="Weight" 
-              value={userData.weight} className="form-control" />
+              value={userData.weight} className="form-control" required/>
             </div>
 
             <div className="form-group">
               <input type="text" name="height" 
               onChange={handleChange} placeholder="Height" 
-              value={userData.height} className="form-control" />
+              value={userData.height} className="form-control" required/>
             </div>
 
             <div className="d-flex mt-4 justify-content-around">
-              <button>Submit</button>
-              <Link to="/profile">Cancel</Link>
+              <button className="btn btn-outline-success">Submit</button>
+              <Link to="/profile" className="btn btn-info">Cancel</Link>
             </div>
           </form>
         </div>
