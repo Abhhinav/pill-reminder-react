@@ -56,7 +56,6 @@ export default function Login() {
     }
     
     return (
-      
       <div className="card p-4" style={{maxWidth:"400px"}}>
         <form onSubmit={handleSubmit}>
         <div className="d-flex justify-content-center"><h2>Login</h2></div>
@@ -85,7 +84,6 @@ export default function Login() {
           <Link to="/register" className="btn btn-outline-info">New User</Link>
           </div>
         </form>
-    
       </div>
     )
   }

@@ -5,7 +5,6 @@ export default function Depform () {
     //let filter = [];
     let id = localStorage.getItem("id");
     const {isLoading, response, error, doFetch} = useFetch(`http://localhost:3001/dependants/${id}/deps`);
-    const [relation, setRelation] = React.useState();
     const [depData, setdepData] = React.useState([]);
     React.useEffect(() => {
         doFetch({
@@ -17,16 +16,7 @@ export default function Depform () {
         console.log(response);
     },[response])
 
-    // React.useEffect(()=> {
-    //     filter = response && response.filter(d=>{
-    //         if(d.name === relation)
-    //         return d;
-    //     })
-    //     console.log(filter);
-    // })
-
     const handleChange = (e) => {
-        setRelation(e.target.value)
         let filter = response && response.filter((d)=>{
           return d.name === e.target.value;
       })
@@ -38,7 +28,9 @@ export default function Depform () {
     return (
     
         <div>
-            <h4>View Dependants</h4>   
+          <br />
+           <div className="d-flex justify-content-center"><h4>View Dependant</h4></div>
+           <br />
             <div className="form-group">
                 <select name="name" onChange={handleChange} className="form-control">
                 <option label="Select Dependant"></option> 

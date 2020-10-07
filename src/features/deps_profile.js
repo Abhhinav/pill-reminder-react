@@ -53,8 +53,7 @@ export default function DepsProfile () {
     }
 
     return(
-        <div className="d-flex justify-content-end">
-            
+        <div className="d-flex justify-content-center">
             {!showDep && 
             <Depform />
             }
@@ -62,8 +61,9 @@ export default function DepsProfile () {
             <div>
             { showDep &&
           <form onSubmit={handleDepSubmit}>
-            <h4>Add Dependant</h4>
-
+            <br />
+            <div className="d-flex justify-content-center"><h4>Add Dependant</h4></div>
+              <br />
             <div className="form-group">
               <input type="text" name="relationship" 
               onChange={handleChange} placeholder="Relationship" 
@@ -114,7 +114,7 @@ export default function DepsProfile () {
 
             <div className="d-flex mt-4 justify-content-around">
               <button className="btn btn-outline-success">Submit</button>
-              <Link to="/profile" className="btn btn-info">Cancel</Link>
+              <Link to="/" className="btn btn-info">Cancel</Link>
             </div>
           </form>
         }

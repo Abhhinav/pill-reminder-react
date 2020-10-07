@@ -1,6 +1,15 @@
 import React from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import useFetch from '../hooks/use-fetch';
+var passwordValidator = require('password-validator');
+var schema = new passwordValidator();
+schema
+.is().min(8)                                    // Minimum length 8
+.has().uppercase()                              // Must have uppercase letters
+.has().lowercase()                              // Must have lowercase letters
+.has().digits()                                 // Must have digits
+.has().symbols()                                // Must have symbol
+.has().not().spaces()                           // Should not have spaces
 
 export default function Register() {
 
@@ -27,6 +36,17 @@ export default function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if(!schema.validate(formData.pwd)){
+      //alert("Your Password must contain a combination of upper case, lower case and special characters with digits and minium length of 8");
+      alert(schema.validate(formData.pwd, { list: true }))
+      alert(`The Password combination lacks the above fields where 
+      min => Minimum length should be 8, 
+      uppercase => Must have an UpperCase
+      lowercase => Must have an LowerCase
+      symbols => Must have a Special Character
+      spaces => Should not contain any Blankspace`);
+      return;
+    }
    if(formData.cpwd === formData.pwd){
     doFetch({
       method: "post",
@@ -44,7 +64,7 @@ export default function Register() {
         }
       })
     })
-    alert("User Registered!");
+    alert("User Registered! Please Login to continue");
   }
   else
   alert("Passwords didn't match!")
@@ -52,10 +72,10 @@ export default function Register() {
 
     return (
       <div style={{maxWidth:"400px"}}>
-        <div className="d-flex justify-content-center">
-        <h4>Registration</h4>
-        </div>
         <div className="card p-4">
+          <div className="d-flex justify-content-center">
+          <h4>Registration</h4>
+          </div>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <input type="text" name="name" 
@@ -71,7 +91,7 @@ export default function Register() {
 
             <div className="form-group">
               <input type="number" name="contact" 
-              onChange={handleChange} placeholder="Contact" 
+              onChange={handleChange} placeholder="Contact"
               value={formData.contact} className="form-control" required/>
             </div>
 

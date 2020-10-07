@@ -23,10 +23,11 @@ export default function Landing() {
         <div className="d-flex justify-content-center"><h2>Welcome!</h2></div>
         <Link to="/medical-history" className="btn btn-dark">Add Medical History</Link>
         <div>
-        
+        <br />
+        <br />
           <div>
             <table className="table table-striped table-condensed">
-                <thead>
+                <thead style={{backgroundColor: 'lightblue'}}>
                   <tr>
                     <th scope="col">Illness</th>
                     <th scope="col">Dr. Name</th>

@@ -18,7 +18,7 @@ export default function MedicalForm() {
           doFetch2({
             method: "delete"
           });
-          alert("Item Deleted!");
+          alert("Medical History Deleted!");
         }
       }
 
@@ -61,6 +61,7 @@ export default function MedicalForm() {
 
     return(
         <div>
+          <br />
           <div className="form-group">
                     <select onChange={handleChange} 
                     name="relationship" 
@@ -75,7 +76,7 @@ export default function MedicalForm() {
                 </div>
         <form>
           <table className="table table-striped table-condensed">
-            <thead>
+            <thead style={{backgroundColor: 'lightgreen'}}>
               <tr>
                 <th scope="col">Illness</th>
                 <th scope="col">Dr. Name</th>

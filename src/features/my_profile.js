@@ -54,10 +54,11 @@ export default function MyProfile () {
       }
 
     return ( 
-        <div className="d-flex justify-content-start">
+        <div className="d-flex justify-content-center">
           <form onSubmit={handleUserSubmit}>
+            <br />
           <div className="d-flex justify-content-center"><h2>My Profile</h2></div>
-            
+          <br />
             <div className="form-group">
               <input type="text" name="name" 
               onChange={handleChange} placeholder="Name" 
@@ -99,10 +100,9 @@ export default function MyProfile () {
               onChange={handleChange} placeholder="Height" 
               value={userData.height} className="form-control" required/>
             </div>
-
             <div className="d-flex mt-4 justify-content-around">
               <button className="btn btn-outline-success">Submit</button>
-              <Link to="/profile" className="btn btn-info">Cancel</Link>
+              <Link to="/" className="btn btn-info">Cancel</Link>
             </div>
           </form>
         </div>

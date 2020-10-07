@@ -25,7 +25,7 @@ export default function MedicalHistory() {
     dosage_amount: "",
     dosage_frequency: "",
     dosage_time: "",
-    email_notify: "",
+    email_notify: true,
     user_id: id,
     dependant_id: "" 
   });
@@ -84,9 +84,11 @@ export default function MedicalHistory() {
         }
         {view &&
           <form onSubmit={handleSubmit}>
+            <br />
+            {show &&
             <div className="form-group">
                     <select value={formData.dependant_id} onChange={handleChange} 
-                    name="dependant_id" placeholder="Select Dependant" className="form-control">
+                    name="dependant_id" placeholder="Select Dependant" className="form-control" required>
                        <option label="Select Dependant"></option>
                        <option value="0">Self</option>
                         {response2 && response2.map(k=>{
@@ -95,8 +97,9 @@ export default function MedicalHistory() {
                         )})}
                     </select>
                 </div>
+              }
           <table className="table table-striped table-condensed">
-            <thead>
+            <thead style={{backgroundColor: 'lightgrey'}}>
               <tr>
                 <th scope="col">Illness</th>
                 <th scope="col">Dr. Name</th>
@@ -164,8 +167,8 @@ export default function MedicalHistory() {
                   <div>
                     <select value={formData.email_notify} 
                     name="email_notify" onChange={handleChange}>
-                        <option value="true">True</option>
-                        <option value="false">False</option>
+                        <option value="true">ON</option>
+                        <option value="false">OFF</option>
                     </select>
                   </div>
                 </td>
@@ -193,12 +196,13 @@ export default function MedicalHistory() {
                   </tr>
               )})}
             </tbody>
-
           </table>
+          {show &&
           <div className = "d-flex justify-content-around">
           <button className = "btn btn-outline-success">Save</button>
-          <Link to="/medical-history" className="btn btn-info">Cancel</Link>
+          <Link to="/" className="btn btn-info">Cancel</Link>
           </div>
+          }
         </form>
       }
       </div>

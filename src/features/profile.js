@@ -7,12 +7,8 @@ export default function Profile() {
   
     return (
         <div className="d-flex justify-content-around">
-            <div className="d-flex justify-content-start">
                 <MyProfile />
-            </div>
-            <div className="d-flex justify-content-center">
                 <DepsProfile />
-            </div>
       </div>
     )
 }
